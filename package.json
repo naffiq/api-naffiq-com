@@ -1,0 +1,19 @@
+{
+  "name": "api-naffiq-com",
+  "version": "1.0.0",
+  "description": "GraphQL API for my blog",
+  "main": "index.js",
+  "author": "naffiq",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "clean": "rimraf build",
+    "build": "yarn clean && tsc",
+    "start": "yarn build && node build/main.js"
+  },
+  "devDependencies": {
+    "@types/node": "^10.0.3",
+    "rimraf": "^2.6.2",
+    "typescript": "^2.8.3"
+  }
+}
