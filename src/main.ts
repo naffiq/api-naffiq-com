@@ -6,7 +6,7 @@ import {createServer} from 'http'
 
 const app = express()
 
-app.get('/', (_, res) => res.send('<h1>How are you doing there?</h1>'))
+app.get('/', (_, res) => res.send('<h1>What are you doing there?</h1>'))
 
 app.use('/graphql', bodyParser.json(), graphqlExpress({schema}))
 app.use('/graphiql', graphiqlExpress({endpointURL: '/graphql'}))

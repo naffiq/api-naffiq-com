@@ -9,7 +9,8 @@
   "scripts": {
     "build": "gulp build",
     "launch": "node build/main.js",
-    "start": "yarn build && yarn launch"
+    "start": "yarn build && yarn launch",
+    "dev": "gulp dev"
   },
   "devDependencies": {
     "@types/express": "^4.11.1",
@@ -23,6 +24,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-clean": "^0.4.0",
+    "gulp-nodemon": "^2.2.1",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-typescript": "^4.0.2",
     "rimraf": "^2.6.2",

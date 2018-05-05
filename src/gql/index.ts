@@ -4,7 +4,8 @@ import {mockPosts} from './data'
 const typeDefs = `
     type Query {
         # Returns all posts
-        posts   : [Post]
+        posts   : [Post],
+        post    : Post
     }
 
     # Basic post type.
