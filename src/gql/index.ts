@@ -1,27 +1,24 @@
 import {makeExecutableSchema} from 'graphql-tools'
-import {mockPosts} from './data'
+import {graphql as postsGql} from '../posts'
 
 const typeDefs = `
     type Query {
-        # Returns all posts
-        posts   : [Post],
-        post    : Post
+        ${postsGql.schema.queries}
     }
 
-    # Basic post type.
-    type Post {
-        title       : String!,
-        slug        : String!,
-        description : String!,
-        body        : String!,
-        image       : String!,
-        isActive    : Boolean
+    type Mutation {
+        ${postsGql.schema.mutations}
     }
+
+    ${postsGql.schema.types}
 `
 
 const resolvers = {
     Query: {
-        posts: () => mockPosts
+        ...postsGql.queries
+    },
+    Mutation: {
+        ...postsGql.mutations
     }
 }
 

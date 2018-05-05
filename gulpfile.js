@@ -22,7 +22,7 @@ gulp.task('clean', function () {
 })
 
 // Build project
-gulp.task('build', ['clean'], function () {
+gulp.task('build', function () {
   return gulp.src('src/**/*.ts')
              .pipe(sourcemaps.init())
              .pipe(tsProject())
@@ -32,7 +32,7 @@ gulp.task('build', ['clean'], function () {
 })
 
 // Watch project for changes.
-gulp.task('dev', ['build'], function () {
+gulp.task('dev', ['clean', 'build'], function () {
   nodemon({
     script: 'build/main.js',
     ext: 'ts',
@@ -41,4 +41,4 @@ gulp.task('dev', ['build'], function () {
   })
 })
 
-gulp.task('default', ['build'])
+gulp.task('default', ['clean', 'build'])
