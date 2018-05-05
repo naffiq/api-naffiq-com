@@ -28,7 +28,8 @@
               "multiline": "never",
               "singleline": "never"
             }
-        ]
+        ],
+        "typedef-whitespace": false
     },
     "rulesDirectory": []
 }

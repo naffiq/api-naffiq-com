@@ -1,4 +1,5 @@
 import {mockPosts} from './data'
+import {IPost} from './model'
 
 export const schema = {
   // Posts query types
@@ -9,8 +10,8 @@ export const schema = {
   `,
   // Mutations to posts
   mutations: `
-    createPost(post: NewPost)      : Post,
-    updatePost(post: ExistingPost) : Post
+    createPost(newPost: NewPost)           : Post,
+    updatePost(existingPost: ExistingPost) : Post
   `,
   // Posts gql types
   types: `
@@ -51,6 +52,31 @@ export const queries = {
   posts: () => mockPosts
 }
 
-export const mutations = {
+// Mutation related interfaces
+interface INewPost {
+  title       : string,
+  description : string,
+  body        : string,
+  image       : string,
+  isActive    : boolean
+}
+interface IExistingPost {
+  id          : number,
+  title       : string,
+  description : string,
+  body        : string,
+  image       : string,
+  isActive    : boolean
+}
 
+export const mutations = {
+  createPost: (_: any, {newPost}: {newPost: INewPost}): IPost => ({
+    id    : 1,
+    slug  : 'ok',
+    ...newPost
+  }),
+  updatePost: (_: any, {existingPost}: {existingPost: IExistingPost}): IPost => ({
+    ...existingPost,
+    slug: 'ok'
+  })
 }
