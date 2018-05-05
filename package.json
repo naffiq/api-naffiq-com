@@ -10,7 +10,8 @@
     "build": "gulp build",
     "launch": "node build/main.js",
     "start": "yarn build && yarn launch",
-    "dev": "gulp dev"
+    "dev": "gulp dev",
+    "lint": "tslint src/**/*.ts"
   },
   "devDependencies": {
     "@types/express": "^4.11.1",
@@ -28,6 +29,7 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-typescript": "^4.0.2",
     "rimraf": "^2.6.2",
+    "tslint": "^5.10.0",
     "typescript": "^2.8.3"
   },
   "dependencies": {
@@ -36,5 +38,9 @@
     "express": "^4.16.3",
     "graphql": "^0.13.2",
     "graphql-tools": "^3.0.0"
-  }
+  },
+  "pre-commit": [
+    "lint"
+    
+  ]
 }

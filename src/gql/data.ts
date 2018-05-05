@@ -1,18 +1,18 @@
 export const mockPosts = [
     {
         title       : 'Wazzup',
-        slug        : 'String',
         description : 'String',
         body        : 'String',
         image       : 'String',
-        isActive    : true
+        isActive    : true,
+        slug        : 'String'
     },
     {
         title       : 'Hello world',
-        slug        : 'String',
         description : 'String',
         body        : 'String',
         image       : 'String',
-        isActive    : true
+        isActive    : true,
+        slug        : 'String'
     },
 ]
