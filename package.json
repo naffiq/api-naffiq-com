@@ -28,6 +28,7 @@
     "gulp-nodemon": "^2.2.1",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-typescript": "^4.0.2",
+    "pre-commit": "^1.2.2",
     "rimraf": "^2.6.2",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3"
@@ -41,6 +42,5 @@
   },
   "pre-commit": [
     "lint"
-    
   ]
 }

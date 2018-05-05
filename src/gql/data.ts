@@ -14,5 +14,5 @@ export const mockPosts = [
         image       : 'String',
         isActive    : true,
         slug        : 'String'
-    },
+    }
 ]
