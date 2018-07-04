@@ -1,5 +1,5 @@
-import {makeExecutableSchema} from 'graphql-tools'
-import {graphql as postsGql} from '../posts'
+import { makeExecutableSchema } from "graphql-tools";
+import { graphql as postsGql } from "../posts";
 
 const typeDefs = `
     type Query {
@@ -11,18 +11,18 @@ const typeDefs = `
     }
 
     ${postsGql.schema.types}
-`
+`;
 
 const resolvers = {
-    Query: {
-        ...postsGql.queries
-    },
-    Mutation: {
-        ...postsGql.mutations
-    }
-}
+  Query: {
+    ...postsGql.queries
+  },
+  Mutation: {
+    ...postsGql.mutations
+  }
+};
 
 export const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers
-})
+  typeDefs,
+  resolvers
+});

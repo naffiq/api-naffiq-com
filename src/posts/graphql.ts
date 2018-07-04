@@ -1,16 +1,19 @@
-import {mockPosts} from './data'
-import {IPost} from './model'
+import slugify from "slugify";
+import Post, { IPost } from "./model";
 
 export const schema = {
   // Posts query types
   queries: `
     # Returns all posts
     posts   : [Post],
+    # Returns single post
     post    : Post
   `,
   // Mutations to posts
   mutations: `
+    # Create new post. Just make sure it's interesting enough.
     createPost(newPost: NewPost)           : Post,
+    # Update post in case of mistakes nad typos
     updatePost(existingPost: ExistingPost) : Post
   `,
   // Posts gql types
@@ -22,7 +25,7 @@ export const schema = {
       slug        : String!,
       description : String!,
       body        : String!,
-      image       : String!,
+      image       : String,
       isActive    : Boolean
     }
 
@@ -31,7 +34,7 @@ export const schema = {
       title       : String!,
       description : String!,
       body        : String!,
-      image       : String!,
+      image       : String,
       isActive    : Boolean
     }
 
@@ -45,38 +48,42 @@ export const schema = {
       isActive    : Boolean
     }
   `
-}
+};
 
 // Queries
 export const queries = {
-  posts: () => mockPosts
-}
+  posts: async (): Promise<IPost[]> => await Post.find()
+};
 
 // Mutation related interfaces
 interface INewPost {
-  title       : string,
-  description : string,
-  body        : string,
-  image       : string,
-  isActive    : boolean
+  title: string;
+  description: string;
+  body: string;
+  image: string;
+  isActive: boolean;
 }
 interface IExistingPost {
-  id          : number,
-  title       : string,
-  description : string,
-  body        : string,
-  image       : string,
-  isActive    : boolean
+  id: number;
+  title: string;
+  description: string;
+  body: string;
+  image: string;
+  isActive: boolean;
 }
 
 export const mutations = {
-  createPost: (_: any, {newPost}: {newPost: INewPost}): IPost => ({
-    id    : 1,
-    slug  : 'ok',
-    ...newPost
-  }),
-  updatePost: (_: any, {existingPost}: {existingPost: IExistingPost}): IPost => ({
-    ...existingPost,
-    slug: 'ok'
-  })
-}
+  createPost: async (
+    _: any,
+    { newPost }: { newPost: INewPost }
+  ): Promise<IPost> =>
+    await Post.create({
+      ...newPost,
+      slug: slugify(newPost.title)
+    }),
+  updatePost: async (
+    _: any,
+    { existingPost }: { existingPost: IExistingPost }
+  ): Promise<IPost> =>
+    await Post.findByIdAndUpdate(existingPost.id, existingPost)
+};
