@@ -1,9 +1,12 @@
 import { graphiqlExpress, graphqlExpress } from "apollo-server-express";
 import bodyParser from "body-parser";
+import dotenv from "dotenv";
 import express from "express";
 import { createServer } from "http";
 import mongoose from "mongoose";
 import { schema } from "./gql";
+
+dotenv.config({ path: process.env.ENV_FILE || ".env" });
 
 const SERVER_PORT = process.env.SERVER_PORT || 8080;
 const MONGO_SERVER = process.env.MONGO_SERVER || "localhost:27017";
