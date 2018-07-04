@@ -40,7 +40,9 @@
   "types": [
     "node",
     "express",
-    "graphql"
+    "graphql",
+    "mongoose",
+    "mongodb"
   ],
   "exclude": [
     "node_modules"
