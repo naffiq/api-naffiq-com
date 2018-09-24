@@ -1,5 +1,6 @@
 import slugify from "slugify";
 import Post, { IPost } from "./model";
+import User from "../users/model";
 
 export const schema = {
   // Posts query types
@@ -26,7 +27,9 @@ export const schema = {
       description : String!,
       body        : String!,
       image       : String,
-      isActive    : Boolean
+      isActive    : Boolean,
+      createdAt   : String,
+      updatedAt   : String
     }
 
     # Use it to create new posts
@@ -75,12 +78,25 @@ interface IExistingPost {
 export const mutations = {
   createPost: async (
     _: any,
-    { newPost }: { newPost: INewPost }
-  ): Promise<IPost> =>
-    await Post.create({
+    { newPost }: { newPost: INewPost },
+    context: any
+  ): Promise<IPost> => {
+    console.log(context);
+    if (!context.user) {
+      throw new Error("Unauthorized access");
+    }
+
+    const author = await User.findOne({ githubId: context.user.githubId });
+
+    if (!author || !author._id || author.role !== "admin") {
+      throw new Error("Unallowed");
+    }
+
+    return await Post.create({
       ...newPost,
       slug: slugify(newPost.title)
-    }),
+    });
+  },
   updatePost: async (
     _: any,
     { existingPost }: { existingPost: IExistingPost }
