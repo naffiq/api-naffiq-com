@@ -8,7 +8,7 @@ export const schema = {
     # Returns all posts
     posts   : [Post],
     # Returns single post
-    post    : Post
+    post (slug: String!)   : Post
   `,
   // Mutations to posts
   mutations: `
@@ -24,7 +24,6 @@ export const schema = {
       id          : ID,
       title       : String!,
       slug        : String!,
-      description : String!,
       body        : String!,
       image       : String,
       isActive    : Boolean,
@@ -35,7 +34,6 @@ export const schema = {
     # Use it to create new posts
     input NewPost {
       title       : String!,
-      description : String!,
       body        : String!,
       image       : String,
       isActive    : Boolean
@@ -45,7 +43,6 @@ export const schema = {
     input ExistingPost {
       id          : ID
       title       : String!,
-      description : String!,
       body        : String!,
       image       : String!,
       isActive    : Boolean

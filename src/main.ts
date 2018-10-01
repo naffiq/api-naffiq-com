@@ -4,6 +4,7 @@ import path from "path";
 import { graphiqlExpress, graphqlExpress } from "apollo-server-express";
 import bodyParser from "body-parser";
 import express from "express";
+import cors from "cors";
 import { createServer } from "http";
 import mongoose from "mongoose";
 import jwt from "express-jwt";
@@ -33,6 +34,7 @@ mongoose.connect(
 );
 const app = express();
 
+app.use(cors());
 app.get("/", (_, res) => res.send("<h1>What are you doing there?</h1>"));
 
 app.use(

@@ -1,5 +1,8 @@
 .vscode
 node_modules/
-build
+/build
 yarn-error.log
 .env
+/data
+/coverage
+.nyc_output

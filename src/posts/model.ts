@@ -24,11 +24,6 @@ const PostSchema = new mongoose.Schema(
       required:
         "This should be generated out of title, are you hacking your way through?"
     },
-    description: {
-      type: String,
-      required:
-        "You want it to be shared, right? Imagine the meta tags being blank in that case"
-    },
     body: {
       type: String,
       required: "У тебя в сумке пусто, и сама ты пустая. 0/10"

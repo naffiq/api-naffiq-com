@@ -5,6 +5,9 @@ import jwt from "jsonwebtoken";
 
 export const initGithubOAuthClient = () => {
   const JWT_SECRET = process.env.JWT_SECRET || "TEST_SECRET";
+  const AUTH_SUCCESS_REDIRECT_URL =
+    process.env.AUTH_SUCCESS_REDIRECT_URL ||
+    "http://localhost:3000/auth/success";
 
   const githubOAuth = GithubOAuth({
     githubClient: process.env.GITHUB_KEY,
@@ -19,7 +22,7 @@ export const initGithubOAuthClient = () => {
   });
 
   githubOAuth.on("token", async (token, serverResponse) => {
-    console.log(token);
+    console.log(serverResponse);
     fetch(`https://api.github.com/user`, {
       headers: {
         Authorization: `token ${token.access_token}`
@@ -27,12 +30,10 @@ export const initGithubOAuthClient = () => {
     })
       .then(result => result.json())
       .then(async userJson => {
-        console.log(userJson);
-
-        const userCount = await User.find({
+        const existingUser = await User.findOne({
           githubLogin: userJson.login
-        }).count();
-        if (userCount === 0) {
+        });
+        if (!existingUser._id) {
           const userToken = jwt.sign(
             {
               githubId: userJson.id
@@ -53,12 +54,12 @@ export const initGithubOAuthClient = () => {
 
           await user.save();
 
-          serverResponse.end(JSON.stringify(user.toJSON()));
-
-          // serverResponse.redidect('https://')
+          serverResponse.redirect(`${AUTH_SUCCESS_REDIRECT_URL}/${user.jwt}/`);
         }
 
-        serverResponse.end(JSON.stringify({ token, userJson }));
+        serverResponse.redirect(
+          `${AUTH_SUCCESS_REDIRECT_URL}/${existingUser.jwt}/`
+        );
       });
   });
 
