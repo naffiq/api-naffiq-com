@@ -13,8 +13,8 @@ Run project with `yarn start`.
 - [x] Set up mongodb
 - [x] Update posts resolvers
 - [x] Set up authentication and authorization
-- [ ] Containerize app
-- [ ] Set up CI/CD cycle
+- [x] Containerize app
+- [x] Set up CI/CD cycle
 - [x] Add Github sign-in option
 - [ ] Create comments section
 - [ ] Add websocket support (with authorization) for comments
