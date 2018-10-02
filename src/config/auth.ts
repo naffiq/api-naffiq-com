@@ -23,44 +23,48 @@ export const initGithubOAuthClient = () => {
 
   githubOAuth.on("token", async (token, serverResponse) => {
     console.log(serverResponse);
-    fetch(`https://api.github.com/user`, {
-      headers: {
-        Authorization: `token ${token.access_token}`
-      }
-    })
-      .then(result => result.json())
-      .then(async userJson => {
-        const existingUser = await User.findOne({
-          githubLogin: userJson.login
-        });
-        if (!existingUser._id) {
-          const userToken = jwt.sign(
-            {
-              githubId: userJson.id
-            },
-            JWT_SECRET
-          );
-
-          const user = await new User({
-            username: userJson.login,
-            jwt: userToken,
-            githubToken: token.access_token,
-            role: userJson.login === "naffiq" ? "admin" : "user",
-            githubLogin: userJson.login,
-            fullName: userJson.name,
-            email: userJson.email,
-            githubId: userJson.id
-          });
-
-          await user.save();
-
-          serverResponse.redirect(`${AUTH_SUCCESS_REDIRECT_URL}/${user.jwt}/`);
+    if (token.access_token) {
+      fetch(`https://api.github.com/user`, {
+        headers: {
+          Authorization: `token ${token.access_token}`
         }
+      })
+        .then(result => result.json())
+        .then(async userJson => {
+          const existingUser = await User.findOne({
+            githubLogin: userJson.login
+          });
+          if (!existingUser || !existingUser._id) {
+            const userToken = jwt.sign(
+              {
+                githubId: userJson.id
+              },
+              JWT_SECRET
+            );
 
-        serverResponse.redirect(
-          `${AUTH_SUCCESS_REDIRECT_URL}/${existingUser.jwt}/`
-        );
-      });
+            const user = await new User({
+              username: userJson.login,
+              jwt: userToken,
+              githubToken: token.access_token,
+              role: userJson.login === "naffiq" ? "admin" : "user",
+              githubLogin: userJson.login,
+              fullName: userJson.name,
+              email: userJson.email,
+              githubId: userJson.id
+            });
+
+            const savedUser = await user.save();
+
+            serverResponse.redirect(
+              `${AUTH_SUCCESS_REDIRECT_URL}/${savedUser.jwt}/`
+            );
+          }
+
+          serverResponse.redirect(
+            `${AUTH_SUCCESS_REDIRECT_URL}/${existingUser.jwt}/`
+          );
+        });
+    }
   });
 
   return githubOAuth;
