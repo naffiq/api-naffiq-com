@@ -1,8 +1,8 @@
 version: "2"
 services:
   app:
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     container_name: api-naffiq-com
     restart: always
     build: .
